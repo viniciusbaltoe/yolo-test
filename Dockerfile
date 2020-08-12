@@ -1,19 +1,30 @@
-FROM ubuntu:latest
+FROM tensorflow/tensorflow:2.3.0-gpu as base
 
-MAINTAINER viniciusbaltoe@gmail.com
+SHELL ["/bin/bash", "-c"]
 
-RUN apt-get update && apt-get install -y vim 
-RUN apt-get install -y git 
-RUN apt-get install -y python3
-RUN apt-get install -y python3-pip 
-RUN apt-get install -y wget 
-RUN apt-get clean
+RUN apt update && apt install -y --no-install-recommends \
+        libsm6 \
+        libxext6 \
+        libxrender-dev \
+        libfontconfig1 \
+        git \
+        unzip \
+        wget \
+        vim
+    
+RUN pip --no-cache-dir install --upgrade \
+    pip \
+    setuptools \
+    opencv-python \
+    is-msgs \
+    is-wire
 
-RUN git clone https://github.com/zzh8829/yolov3-tf2.git
-WORKDIR yolov3-tf2
+RUN pip --no-cache-dir install --upgrade protobuf
 
-#RUN pip3 install -r requirements.txt
-RUN pip3 install tensorflow
-RUN pip3 install opencv-python
-RUN pip3 install lxml
-RUN pip3 install tqdm
+# Download and convert yolov3.weights
+WORKDIR /home
+RUN git clone https://github.com/pedrodsc/is-tracker.git -b develop
+RUN wget https://pjreddie.com/media/files/yolov3.weights -O /home/is-tracker/etc/data/yolov3.weights
+RUN python /home/is-tracker/src/is_tracker/convert.py --weights /home/is-tracker/etc/data/yolov3.weights --output /home/is-tracker/etc/checkpoints/yolov3.tf
+RUN python /home/is-tracker/src/is_tracker/export_tfserving.py
+#RUN rm /home/is-tracker/etc/data/yolov3.weights
