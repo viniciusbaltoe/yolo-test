@@ -23,7 +23,7 @@ RUN pip --no-cache-dir install --upgrade protobuf
 
 # Download and convert yolov3.weights
 WORKDIR /home
-RUN git clone https://github.com/zzh8829/yolov3-tf2.git -b develop
+RUN git clone https://github.com/zzh8829/yolov3-tf2.git
 
 RUN wget https://pjreddie.com/media/files/yolov3.weights -O data/yolov3.weights
 RUN python convert.py --weights ./data/yolov3.weights --output ./checkpoints/yolov3.tf
