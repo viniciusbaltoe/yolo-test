@@ -23,8 +23,8 @@ RUN pip --no-cache-dir install --upgrade protobuf
 
 # Download and convert yolov3.weights
 WORKDIR /home
-RUN git clone https://github.com/pedrodsc/is-tracker.git -b develop
-RUN wget https://pjreddie.com/media/files/yolov3.weights -O /home/is-tracker/etc/data/yolov3.weights
-RUN python /home/is-tracker/src/is_tracker/convert.py --weights /home/is-tracker/etc/data/yolov3.weights --output /home/is-tracker/etc/checkpoints/yolov3.tf
-RUN python /home/is-tracker/src/is_tracker/export_tfserving.py
-#RUN rm /home/is-tracker/etc/data/yolov3.weights
+RUN git clone https://github.com/zzh8829/yolov3-tf2.git -b develop
+
+RUN wget https://pjreddie.com/media/files/yolov3.weights -O data/yolov3.weights
+RUN python convert.py --weights ./data/yolov3.weights --output ./checkpoints/yolov3.tf
+
