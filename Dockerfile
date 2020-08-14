@@ -15,7 +15,6 @@ RUN pip --no-cache-dir install --upgrade \
 
 RUN pip --no-cache-dir install --upgrade protobuf
 
-# Download and convert yolov3.weights
 WORKDIR /home
 RUN git clone https://github.com/viniciusbaltoe/yolo-test.git
 WORKDIR /home/yolo-test
