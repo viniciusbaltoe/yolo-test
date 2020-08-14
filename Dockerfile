@@ -3,6 +3,10 @@ FROM tensorflow/tensorflow:2.3.0-gpu as base
 SHELL ["/bin/bash", "-c"]
 
 RUN apt update && apt install -y --no-install-recommends \
+        libsm6 \
+        libxext6 \
+        libxrender-dev \
+        libfontconfig1 \
         git \
         unzip \
         wget \
