@@ -10,7 +10,6 @@ RUN apt update && apt install -y --no-install-recommends \
     
 RUN pip --no-cache-dir install --upgrade \
     pip \
-    opencv-python \
     is-msgs \
     is-wire
 
@@ -21,5 +20,6 @@ WORKDIR /home
 RUN git clone https://github.com/viniciusbaltoe/yolo-test.git
 WORKDIR /home/yolo-test
 RUN pip install -r ./requirements.txt
+RUN wget -P model_data https://pjreddie.com/media/files/yolov3.weights
 
 
