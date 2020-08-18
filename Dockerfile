@@ -25,4 +25,4 @@ WORKDIR /home/yolo-test
 RUN pip install -r ./requirements.txt
 RUN wget -P model_data https://pjreddie.com/media/files/yolov3.weights
 
-
+ENV QT_X11_NO_MITSHM 1

@@ -9,7 +9,7 @@
 #
 #================================================================
 import os
-os.environ['CUDA_VISIBLE_DEVICES'] = '0'
+os.environ['CUDA_VISIBLE_DEVICES'] = '1'
 import cv2
 import numpy as np
 import tensorflow as tf
@@ -24,7 +24,7 @@ if YOLO_TYPE == "yolov3":
     Darknet_weights = YOLO_V3_TINY_WEIGHTS if TRAIN_YOLO_TINY else YOLO_V3_WEIGHTS
 
 image_path   = "./IMAGES/kite.jpg"
-video_path   = "./IMAGES/test.mp4"
+#video_path   = "./IMAGES/test.mp4"
 
 yolo = Create_Yolo(input_size=YOLO_INPUT_SIZE)
 load_yolo_weights(yolo, Darknet_weights) # use Darknet weights
