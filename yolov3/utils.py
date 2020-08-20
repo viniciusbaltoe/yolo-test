@@ -1,13 +1,3 @@
-#================================================================
-#
-#   File name   : utils.py
-#   Author      : PyLessons
-#   Created date: 2020-07-27
-#   Website     : https://pylessons.com/
-#   GitHub      : https://github.com/pythonlessons/TensorFlow-2.x-YOLOv3
-#   Description : additional yolov3 and yolov4 functions
-#
-#================================================================
 import cv2
 import time
 import random
@@ -15,6 +5,7 @@ import colorsys
 import numpy as np
 import tensorflow as tf
 from yolov3.configs import *
+from options_is import *
 
 def load_yolo_weights(model, weights_file):
     tf.keras.backend.clear_session() # used to reset layer names
@@ -266,13 +257,26 @@ def detect_image(YoloV3, image_path, output_path, input_size=416, show=False, CL
     image = draw_bbox(original_image, bboxes, CLASSES=CLASSES, rectangle_colors=rectangle_colors)
 
     if output_path != '': cv2.imwrite(output_path, image)
+    #if show:
+    #    # Show the image
+    #    cv2.imshow("predicted image", image)
+    #    # Load and hold the image
+    #    cv2.waitKey(0)
+    #    # To close the window after the required kill value was provided
+    #    cv2.destroyAllWindows()
     if show:
-        # Show the image
-        cv2.imshow("predicted image", image)
-        # Load and hold the image
-        cv2.waitKey(0)
-        # To close the window after the required kill value was provided
-        cv2.destroyAllWindows()
+        #Show the image on IS
+        channel = Channel('ampq://guest:guest@192.168.1.11:30000')
+        cap = cv2.VideoCapture(sys.argv[1])
+        while True:
+            camera_ok, img = cap.read()
+            if not camera_ok:
+                print('Unable to read camera')
+                break
+            img_message = Message()
+            img_message.pack(to_image(img))
+            channel.publish(img_message, 'vinicius.1.Frame')
+
         
     return image
 

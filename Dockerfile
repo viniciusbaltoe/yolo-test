@@ -2,7 +2,7 @@ FROM tensorflow/tensorflow:2.3.0-gpu as base
 
 SHELL ["/bin/bash", "-c"]
 
-## Display config
+## Display config para rodar em CPU
 ENV QT_X11_NO_MITSHM 1
 
 RUN apt update && apt install -y --no-install-recommends \
