@@ -5,7 +5,7 @@ import colorsys
 import numpy as np
 import tensorflow as tf
 from yolov3.configs import *
-from options_is import *
+from yolov3.options_is import *
 
 def load_yolo_weights(model, weights_file):
     tf.keras.backend.clear_session() # used to reset layer names
@@ -267,14 +267,9 @@ def detect_image(YoloV3, image_path, output_path, input_size=416, show=False, CL
     if show:
         #Show the image on IS
         channel = Channel('ampq://guest:guest@192.168.1.11:30000')
-        cap = cv2.VideoCapture(sys.argv[1])
         while True:
-            camera_ok, img = cap.read()
-            if not camera_ok:
-                print('Unable to read camera')
-                break
             img_message = Message()
-            img_message.pack(to_image(img))
+            img_message.pack(to_image(image))
             channel.publish(img_message, 'vinicius.1.Frame')
 
         
