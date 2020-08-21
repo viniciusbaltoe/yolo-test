@@ -20,7 +20,7 @@ def to_image(input_image, encode_format='.jpeg', compression_level=0.8):
         return Image()
 
 # 1
-channel = Channel('ampq://guest:guest@localhost:30000')
+channel = Channel('ampq://guest:guest@10.10.2.7:30000')
 
 #cap = cv2.VideoCapture(sys.argv[1])
 
