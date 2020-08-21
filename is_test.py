@@ -20,9 +20,9 @@ def to_image(input_image, encode_format='.jpeg', compression_level=0.8):
         return Image()
 
 # 1
-channel = Channel('ampq://guest:guest@192.168.1.11:30000')
+channel = Channel('ampq://guest:guest@localhost:30000')
 
-cap = cv2.VideoCapture(sys.argv[1])
+#cap = cv2.VideoCapture(sys.argv[1])
 
 while True:
     img   = "./IMAGES/kite.jpg"
@@ -36,4 +36,4 @@ while True:
     # 3
     img_message.pack(to_image(img))
     # 4
-    channel.publish(img_message, 'vinicius.1.Frame')
+    channel.publish(img_message, 'Vinicius.1.Frame')
