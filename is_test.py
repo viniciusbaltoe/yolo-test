@@ -2,6 +2,7 @@ from is_wire.core import Channel,Subscription,Message
 from is_msgs.image_pb2 import Image
 import cv2
 import numpy as np
+import time
 
 # funcao legado
 def to_image(input_image, encode_format='.jpeg', compression_level=0.8):
@@ -22,19 +23,13 @@ def to_image(input_image, encode_format='.jpeg', compression_level=0.8):
 # 1
 channel = Channel('amqp://10.10.2.7:30000')
 
-#cap = cv2.VideoCapture(sys.argv[1])
+img   = "./IMAGES/kite.jpg"
+
+img_message = Message()
+
+img_message.pack(to_image(img))
 
 while True:
-    img   = "./IMAGES/kite.jpg"
-    #camera_ok, img = cap.read()
-    #if not camera_ok:
-    #    print('Unable to read camera')
-    #    break
-    
-    # 2
-    img_message = Message()
-    # 3
-    img_message.pack(to_image(img))
-    # 4
-    channel.publish(img_message, 'Vinicius.1.Frame')
-    print("##")
+    channel.publish(img_message, 'Vinicius.Frame')
+    time.sleep(1)
+
