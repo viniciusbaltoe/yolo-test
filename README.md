@@ -17,4 +17,4 @@ docker run -ti --gpus 0 --name yolo yolo-test:0.0.5
 
 (git pull)
 
-Go 10.10.2.3:30300/Vinicius.Frame
+Go 10.10.2.7:30300/Vinicius.Frame

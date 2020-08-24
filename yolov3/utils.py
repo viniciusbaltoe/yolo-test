@@ -266,10 +266,7 @@ def detect_image(YoloV3, image_path, output_path, input_size=416, show=False, CL
     #    cv2.destroyAllWindows()
     if show:
         #Show the image on IS
-        channel = Channel('ampq://guest:guest@localhost:30000')
         while True:
-            img_message = Message()
-            img_message.pack(to_image(image))
             channel.publish(img_message, 'Vinicius.1.Frame')
 
         

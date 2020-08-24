@@ -14,12 +14,19 @@ if YOLO_TYPE == "yolov4":
 if YOLO_TYPE == "yolov3":
     Darknet_weights = YOLO_V3_TINY_WEIGHTS if TRAIN_YOLO_TINY else YOLO_V3_WEIGHTS
 
-image_path   = "./IMAGES/kite.jpg"
+image_path   = "./IMAGES/carros.jpeg"
 #video_path   = "./IMAGES/test.mp4"
 #usbcam_path  = cv2.VideoCapture(0)
 
 yolo = Create_Yolo(input_size=YOLO_INPUT_SIZE)
 load_yolo_weights(yolo, Darknet_weights) # use Darknet weights
+
+
+channel = Channel('amqp://10.10.2.7:30000')
+
+img_message = Message()
+
+img_message.pack(to_image(image_path))
 
 detect_image(yolo, image_path, "./IMAGES/kite_pred.jpg", input_size=YOLO_INPUT_SIZE, show=True, rectangle_colors=(255,0,0))
 #detect_video(yolo, video_path, '', input_size=YOLO_INPUT_SIZE, show=True, rectangle_colors=(255,0,0))
