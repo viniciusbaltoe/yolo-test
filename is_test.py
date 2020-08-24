@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 import time
 
-# funcao legado
+
 def to_image(input_image, encode_format='.jpeg', compression_level=0.8):
     if isinstance(input_image, np.ndarray):
         if encode_format == '.jpeg':
@@ -20,10 +20,9 @@ def to_image(input_image, encode_format='.jpeg', compression_level=0.8):
     else:
         return Image()
 
-# 1
-channel = Channel('amqp://10.10.2.3:30000')
+channel = Channel('amqp://10.10.2.7:30000')
 
-img   = "./IMAGES/kite.jpg"
+img = cv2.imread("./IMAGES/kite.jpg")
 
 img_message = Message()
 
