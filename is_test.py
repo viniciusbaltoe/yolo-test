@@ -37,3 +37,4 @@ while True:
     img_message.pack(to_image(img))
     # 4
     channel.publish(img_message, 'Vinicius.1.Frame')
+    print("##")

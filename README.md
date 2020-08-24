@@ -16,3 +16,5 @@ docker run -ti --privileged -dti --net=host --name yolo -v /tmp/.X11-unix:/tmp/.
 docker run -ti --gpus 0 --name yolo yolo-test:0.0.5
 
 (git pull)
+
+Go http://10.10.2.7:30300/Vinicius.0.Frame
