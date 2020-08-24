@@ -21,7 +21,7 @@ def to_image(input_image, encode_format='.jpeg', compression_level=0.8):
         return Image()
 
 # 1
-channel = Channel('amqp://10.10.2.7:30000')
+channel = Channel('amqp://10.10.2.3:30000')
 
 img   = "./IMAGES/kite.jpg"
 
@@ -30,6 +30,6 @@ img_message = Message()
 img_message.pack(to_image(img))
 
 while True:
-    channel.publish(img_message, 'Vinicius.Frame')
+    channel.publish(img_message, topic='Vinicius.Frame')
     time.sleep(1)
 
