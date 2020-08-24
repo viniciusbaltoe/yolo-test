@@ -2,7 +2,9 @@
 Teste para a utilização do yolo
 
 * BUILD DOCKERFILE
+
 cd ~/yolo-test
+
 docker build -t yolo-test:0.0.5
 
 * RUN (CPU) with:
@@ -12,4 +14,5 @@ docker run -ti --privileged -dti --net=host --name yolo -v /tmp/.X11-unix:/tmp/.
 * RUN (GPU in IS) with:
 
 docker run -ti --gpus 0 --name yolo yolo-test:0.0.5
+
 (git pull)
