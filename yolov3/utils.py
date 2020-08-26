@@ -273,7 +273,7 @@ def detect_image(YoloV3, image_path, output_path, input_size=416, show=False, CL
     
     while True:
         channel.publish(img_message, topic='Vinicius.Frame')
-        print("#")
+        #print("#")
         time.sleep(1)
 
 
@@ -287,6 +287,10 @@ def detect_video(YoloV3, video_path, output_path, input_size=416, show=False, CL
     fps = int(vid.get(cv2.CAP_PROP_FPS))
     codec = cv2.VideoWriter_fourcc(*'XVID')
     out = cv2.VideoWriter(output_path, codec, fps, (width, height)) # output_path must be .mp4
+
+    # IS config to "Publisher"
+    channel = Channel('amqp://10.10.2.7:30000')
+    img_message = Message()
 
     while True:
         _, img = vid.read()
@@ -322,13 +326,21 @@ def detect_video(YoloV3, video_path, output_path, input_size=416, show=False, CL
                           cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (0, 0, 255), 2)
 
         if output_path != '': out.write(image)
-        if show:
-            cv2.imshow('output', image)
-            if cv2.waitKey(25) & 0xFF == ord("q"):
-                cv2.destroyAllWindows()
-                break
 
-    cv2.destroyAllWindows()
+        img_message.pack(to_image(image))
+    
+        while True:
+            channel.publish(img_message, topic='Vinicius.Frame')
+            print("#")
+            #time.sleep(1)
+        
+        #if show:
+        #    cv2.imshow('output', image)
+        #    if cv2.waitKey(25) & 0xFF == ord("q"):
+        #        cv2.destroyAllWindows()
+        #        break
+
+    #cv2.destroyAllWindows()
 
 # detect from webcam
 def detect_realtime(YoloV3, output_path, input_size=416, show=False, CLASSES=YOLO_COCO_CLASSES, score_threshold=0.3, iou_threshold=0.45, rectangle_colors=''):
