@@ -5,7 +5,6 @@ import colorsys
 import numpy as np
 import tensorflow as tf
 from yolov3.configs import *
-from options_is import *
 
 def load_yolo_weights(model, weights_file):
     tf.keras.backend.clear_session() # used to reset layer names
@@ -264,11 +263,6 @@ def detect_image(YoloV3, image_path, output_path, input_size=416, show=False, CL
     #    cv2.waitKey(0)
     #    # To close the window after the required kill value was provided
     #    cv2.destroyAllWindows()
-    if show:
-        #Show the image on IS
-        while True:
-            channel.publish(img_message, 'Vinicius.Frame')
-
         
     return image
 
