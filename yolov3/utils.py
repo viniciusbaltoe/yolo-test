@@ -6,6 +6,9 @@ import numpy as np
 import tensorflow as tf
 from yolov3.configs import *
 
+from is_wire.core import Channel, Message
+from yolov3.options_is import *
+
 def load_yolo_weights(model, weights_file):
     tf.keras.backend.clear_session() # used to reset layer names
     # load Darknet original weights to TensorFlow model
@@ -263,8 +266,16 @@ def detect_image(YoloV3, image_path, output_path, input_size=416, show=False, CL
     #    cv2.waitKey(0)
     #    # To close the window after the required kill value was provided
     #    cv2.destroyAllWindows()
-        
-    return image
+
+    channel = Channel('amqp://10.10.2.7:30000')
+    img_message = Message()
+    img_message.pack(to_image(image))
+    
+    while True:
+        channel.publish(img_message, topic='Vinicius.Frame')
+        print("#")
+        time.sleep(1)
+
 
 def detect_video(YoloV3, video_path, output_path, input_size=416, show=False, CLASSES=YOLO_COCO_CLASSES, score_threshold=0.3, iou_threshold=0.45, rectangle_colors=''):
     times = []
