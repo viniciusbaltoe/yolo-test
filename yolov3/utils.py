@@ -259,13 +259,6 @@ def detect_image(YoloV3, image_path, output_path, input_size=416, show=False, CL
     image = draw_bbox(original_image, bboxes, CLASSES=CLASSES, rectangle_colors=rectangle_colors)
 
     if output_path != '': cv2.imwrite(output_path, image)
-    #if show:
-    #    # Show the image
-    #    cv2.imshow("predicted image", image)
-    #    # Load and hold the image
-    #    cv2.waitKey(0)
-    #    # To close the window after the required kill value was provided
-    #    cv2.destroyAllWindows()
 
     channel = Channel('amqp://10.10.2.7:30000')
     img_message = Message()
@@ -329,18 +322,9 @@ def detect_video(YoloV3, video_path, output_path, input_size=416, show=False, CL
 
         img_message.pack(to_image(image))
     
-        while True:
-            channel.publish(img_message, topic='Vinicius.Frame')
-            print("#")
-            #time.sleep(1)
-        
-        #if show:
-        #    cv2.imshow('output', image)
-        #    if cv2.waitKey(25) & 0xFF == ord("q"):
-        #        cv2.destroyAllWindows()
-        #        break
+        channel.publish(img_message, topic='Vinicius.Frame')
+        #time.sleep(1)
 
-    #cv2.destroyAllWindows()
 
 # detect from webcam
 def detect_realtime(YoloV3, output_path, input_size=416, show=False, CLASSES=YOLO_COCO_CLASSES, score_threshold=0.3, iou_threshold=0.45, rectangle_colors=''):
@@ -353,6 +337,10 @@ def detect_realtime(YoloV3, output_path, input_size=416, show=False, CLASSES=YOL
     fps = int(vid.get(cv2.CAP_PROP_FPS))
     codec = cv2.VideoWriter_fourcc(*'XVID')
     out = cv2.VideoWriter(output_path, codec, fps, (width, height)) # output_path must be .mp4
+
+    # IS config to "Publisher"
+    channel = Channel('amqp://10.10.2.7:30000')
+    img_message = Message()
 
     while True:
         _, frame = vid.read()
@@ -387,11 +375,7 @@ def detect_realtime(YoloV3, output_path, input_size=416, show=False, CLASSES=YOL
         image = cv2.putText(frame, "Time: {:.1f}FPS".format(fps), (0, 30),
                           cv2.FONT_HERSHEY_COMPLEX_SMALL, 1, (0, 0, 255), 2)
 
-        if output_path != '': out.write(frame)
-        if show:
-            cv2.imshow('output', frame)
-            if cv2.waitKey(25) & 0xFF == ord("q"):
-                cv2.destroyAllWindows()
-                break
-
-    cv2.destroyAllWindows()
+        img_message.pack(to_image(frame))
+    
+        channel.publish(img_message, topic='Vinicius.Frame')
+        #time.sleep(1)
