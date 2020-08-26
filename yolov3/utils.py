@@ -5,7 +5,7 @@ import colorsys
 import numpy as np
 import tensorflow as tf
 from yolov3.configs import *
-from yolov3.options_is import *
+from options_is import *
 
 def load_yolo_weights(model, weights_file):
     tf.keras.backend.clear_session() # used to reset layer names
@@ -267,7 +267,7 @@ def detect_image(YoloV3, image_path, output_path, input_size=416, show=False, CL
     if show:
         #Show the image on IS
         while True:
-            channel.publish(img_message, 'Vinicius.1.Frame')
+            channel.publish(img_message, 'Vinicius.Frame')
 
         
     return image
